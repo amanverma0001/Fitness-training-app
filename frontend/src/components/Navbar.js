@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-function Navbar({ darkMode, setDarkMode }) {
+function Navbar({ darkMode, setDarkMode, setToken }) {
   const navigate = useNavigate();
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
@@ -8,6 +8,7 @@ function Navbar({ darkMode, setDarkMode }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setToken(null);
     navigate("/");
   };
 

@@ -10,7 +10,7 @@ const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
   delay: `${(i * 1.1) % 8}s`,
 }));
 
-function Login({ darkMode }) {
+function Login({ darkMode, setToken }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +25,7 @@ function Login({ darkMode }) {
       const res = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      setToken(res.data.token);
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Connection failed! Check if backend is running.");

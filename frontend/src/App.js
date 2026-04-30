@@ -11,7 +11,7 @@ import Nutrition from "./pages/Nutrition";
 import PushNotification from "./components/PushNotification";
 
 function App() {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") !== "false"
   );
@@ -31,10 +31,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      {token && <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />}
+      {token && <Navbar darkMode={darkMode} setDarkMode={setDarkMode} setToken={setToken} />}
       <Routes>
-        <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Login darkMode={darkMode} />} />
-        <Route path="/signup" element={<Signup darkMode={darkMode} />} />
+        <Route path="/" element={token ? <Navigate to="/dashboard" /> : <Login darkMode={darkMode} setToken={setToken} />} />
+        <Route path="/signup" element={<Signup darkMode={darkMode} setToken={setToken} />} />
         <Route path="/dashboard" element={token ? <Dashboard darkMode={darkMode} /> : <Navigate to="/" />} />
         <Route path="/workout" element={token ? <WorkoutSession darkMode={darkMode} /> : <Navigate to="/" />} />
         <Route path="/profile" element={token ? <Profile darkMode={darkMode} /> : <Navigate to="/" />} />

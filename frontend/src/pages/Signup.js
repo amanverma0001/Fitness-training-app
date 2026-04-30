@@ -10,7 +10,7 @@ const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
   delay: `${(i * 1.3) % 8}s`,
 }));
 
-function Signup({ darkMode }) {
+function Signup({ darkMode, setToken }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
