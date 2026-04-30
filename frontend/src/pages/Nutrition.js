@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 
 function Nutrition({ darkMode }) {
   const [nutrition, setNutrition] = useState(null);
@@ -58,7 +58,7 @@ function Nutrition({ darkMode }) {
 
   const fetchToday = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/nutrition/today", { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get("/nutrition/today");
       setNutrition(res.data);
       setWater(res.data.waterIntake || 0);
     } catch (err) { console.log(err); }
@@ -68,9 +68,9 @@ function Nutrition({ darkMode }) {
     if (!foodName.trim()) return;
     setLoadingIndex(index);
     try {
-      const res = await axios.post("http://localhost:5001/api/chat", {
+      const res = await api.post("/chat", {
         messages: [{ role: "user", content: `Calculate nutrition for "${foodName}" — ${quantity} ${unit} (Indian homemade style).\nStandard references:\n- Dal = cooked lentil curry, 1 katori = 150g ≈ 120 kcal\n- Roti = whole wheat chapati, 1 piece = 40g ≈ 80 kcal  \n- Chaas = buttermilk, 1 glass = 250ml ≈ 40 kcal\n- Rice = cooked, 1 katori = 150g ≈ 180 kcal\n- Sabzi = cooked curry, 1 katori = 150g ≈ 100 kcal\n- Salad = raw veggies, 1 bowl = 100g ≈ 30 kcal\n- Egg = boiled, 1 piece = 50g ≈ 70 kcal\n- Dahi = curd, 1 katori = 150g ≈ 90 kcal\n\nReply ONLY in JSON:\n{"calories": 0, "protein": 0, "carbs": 0, "fats": 0}` }]
-      }, { headers: { Authorization: `Bearer ${token}` } });
+      });
       
       const text = res.data.reply;
       const match = text.match(/\{.*\}/s);
@@ -115,9 +115,8 @@ function Nutrition({ darkMode }) {
     setSaving(true);
     try {
       for (const item of valid) {
-        await axios.post("http://localhost:5001/api/nutrition/add-meal",
-          { name: `${item.name} (${item.quantity} ${item.unit})`, calories: item.calories, protein: item.protein, carbs: item.carbs, fats: item.fats, time: mealType },
-          { headers: { Authorization: `Bearer ${token}` } }
+        await api.post("/nutrition/add-meal",
+          { name: `${item.name} (${item.quantity} ${item.unit})`, calories: item.calories, protein: item.protein, carbs: item.carbs, fats: item.fats, time: mealType }
         );
       }
       await fetchToday();
@@ -130,7 +129,7 @@ function Nutrition({ darkMode }) {
   const updateWater = async (glasses) => {
     setWater(glasses);
     try {
-      await axios.put("http://localhost:5001/api/nutrition/water", { glasses }, { headers: { Authorization: `Bearer ${token}` } });
+      await api.put("/nutrition/water", { glasses });
     } catch (err) { console.log(err); }
   };
 

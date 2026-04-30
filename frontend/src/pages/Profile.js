@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 
 function Profile({ darkMode }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -60,9 +60,7 @@ function Profile({ darkMode }) {
 
   const fetchReminderSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/reminder/settings", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get("/reminder/settings");
       setNotifEnabled(!!res.data?.enabled);
       if (res.data?.time) setNotifTime(res.data.time);
     } catch (err) { console.log(err); }
@@ -80,11 +78,7 @@ function Profile({ darkMode }) {
 
   const saveReminderSettings = async (enabled, time) => {
     try {
-      await axios.put(
-        "http://localhost:5001/api/reminder/settings",
-        { enabled, time },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await api.put("/reminder/settings", { enabled, time });
       setNotifSaved(true);
       setTimeout(() => setNotifSaved(false), 2000);
     } catch (err) { console.log(err); }
@@ -133,14 +127,14 @@ function Profile({ darkMode }) {
 
   const fetchWorkouts = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/workout/my", { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get("/workout/my");
       setWorkouts(res.data);
     } catch (err) { console.log(err); }
   };
 
   const fetchStreak = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/streak/my", { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get("/streak/my");
       setStreak(res.data || { currentStreak: 0, bestStreak: 0 });
     } catch (err) { console.log(err); }
   };
@@ -149,10 +143,7 @@ function Profile({ darkMode }) {
     const w = Number(weight) || 70;
     const a = Number(age) || 25;
     try {
-      const res = await axios.put("http://localhost:5001/api/auth/update-profile",
-        { name, bio, goal, weight: w, age: a },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await api.put("/auth/update-profile", { name, bio, goal, weight: w, age: a });
       const updatedUser = {
         ...user,
         name,

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import api from "../api";
 
 function FitnessBot({ darkMode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,14 +25,10 @@ function FitnessBot({ darkMode }) {
     setMessages(prev => [...prev, { role: "user", content: userMessage }]);
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5001/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ messages: [...messages.map(m => ({ role: m.role, content: m.content })), { role: "user", content: userMessage }] })
+      const res = await api.post("/chat", {
+        messages: [...messages.map(m => ({ role: m.role, content: m.content })), { role: "user", content: userMessage }]
       });
-      const data = await response.json();
-      setMessages(prev => [...prev, { role: "assistant", content: data.reply }]);
+      setMessages(prev => [...prev, { role: "assistant", content: res.data.reply }]);
     } catch {
       setMessages(prev => [...prev, { role: "assistant", content: "Oops! Kuch error aa gaya. Dobara try karo! 🙏" }]);
     }

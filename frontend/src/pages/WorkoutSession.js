@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5001");
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || "http://localhost:5001";
+const socket = io(SOCKET_URL);
 
 function WorkoutSession({ darkMode }) {
   const workoutPlans = {
@@ -150,14 +151,13 @@ function WorkoutSession({ darkMode }) {
     clearInterval(intervalRef.current);
     setIsRunning(false);
     try {
-      const res = await axios.post("http://localhost:5001/api/workout/create",
+      const res = await api.post("/workout/create",
         {
           name: selectedWorkout,
           exercises,
           duration: Math.floor(seconds / 60) || 1,
           calories: calcCalories(seconds, selectedWorkout)
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+        }
       );
       localStorage.setItem("user", JSON.stringify({ ...user, streak: res.data.streak }));
       setFinished(true);

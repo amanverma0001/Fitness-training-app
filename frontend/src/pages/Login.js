@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
 
 const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
@@ -22,7 +22,7 @@ function Login({ darkMode }) {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://localhost:5001/api/auth/login", { email, password });
+      const res = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       navigate("/dashboard");

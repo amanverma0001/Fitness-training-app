@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
 
 const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
@@ -23,7 +23,7 @@ function Signup({ darkMode }) {
     setLoading(true);
     setError("");
     try {
-      await axios.post("http://localhost:5001/api/auth/signup", { name, email, password });
+      await api.post("/auth/signup", { name, email, password });
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.error || "Connection failed! Check if backend is running.");

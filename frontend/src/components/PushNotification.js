@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import axios from "axios";
+import api from "../api";
 
-const API = "http://localhost:5001/api";
+// API base URL is handled by the centralized api utility
 const POLL_INTERVAL_MS = 30 * 60 * 1000; // 30 min
 const SHOWN_KEY = "igniteNotifShown"; // { [tag]: "YYYY-MM-DD" }
 
@@ -63,9 +63,7 @@ function PushNotification() {
       const token = localStorage.getItem("token");
       if (!token) return;
       try {
-        const res = await axios.get(`${API}/reminder/check`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.get("/reminder/check");
         const reminders = res.data?.reminders || [];
         for (const r of reminders) {
           const tag = `${r.type}-${new Date().toDateString()}`;
@@ -88,9 +86,7 @@ function PushNotification() {
       const token = localStorage.getItem("token");
       if (!token) return;
       try {
-        const res = await axios.get(`${API}/reminder/settings`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.get("/reminder/settings");
         const { enabled, time } = res.data || {};
         if (!enabled || !time) return;
 
