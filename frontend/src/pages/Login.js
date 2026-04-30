@@ -120,7 +120,7 @@ function Login({ darkMode }) {
             background: "linear-gradient(135deg, #ff6b35, #ffb347)",
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
             letterSpacing: "-1.5px",
-          }}>Tejas</h1>
+          }}>Ignite</h1>
           <p style={{ color: mutedColor, fontSize: "14px", margin: 0, fontWeight: "400" }}>
             Welcome back, warrior! 🔥
           </p>

@@ -111,7 +111,7 @@ function Profile({ darkMode }) {
       if (perm !== "granted") return;
     }
     const payload = {
-      title: "🔥 Test Notification — Tejas",
+      title: "🔥 Test Notification — Ignite",
       body: "Notifications kaam kar rahi hain! Let's crush today's workout 💪",
       action: "/workout",
       tag: "test-" + Date.now(),

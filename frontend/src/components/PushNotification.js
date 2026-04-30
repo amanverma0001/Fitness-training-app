@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API = "http://localhost:5001/api";
 const POLL_INTERVAL_MS = 30 * 60 * 1000; // 30 min
-const SHOWN_KEY = "tejasNotifShown"; // { [tag]: "YYYY-MM-DD" }
+const SHOWN_KEY = "igniteNotifShown"; // { [tag]: "YYYY-MM-DD" }
 
 function getShownMap() {
   try {

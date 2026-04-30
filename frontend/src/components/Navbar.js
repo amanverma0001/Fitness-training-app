@@ -95,7 +95,7 @@ function Navbar({ darkMode, setDarkMode }) {
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
           letterSpacing: "-0.5px",
-        }}>Tejas</span>
+        }}>Ignite</span>
       </Link>
 
       {/* Nav links */}

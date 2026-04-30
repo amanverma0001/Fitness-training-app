@@ -39,5 +39,5 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.log("DB Error:", err));
 
 server.listen(process.env.PORT, () => {
-  console.log(`Tejas server running on port ${process.env.PORT}`);
+  console.log(`Ignite server running on port ${process.env.PORT}`);
 });

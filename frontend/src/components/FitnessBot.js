@@ -5,7 +5,7 @@ function FitnessBot({ darkMode }) {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Namaste! 💪 Main Tejas AI Fitness Coach hun!\n\nMujhse poochho:\n• Exercise tips 🏋️\n• Muscle pain solutions 💊\n• Diet & nutrition 🥗\n• Supplements 💉\n• Workout plans 📋\n• Weight loss/gain ⚖️\n\nKya jaanna chahte ho?"
+      content: "Namaste! 💪 Main Ignite AI Fitness Coach hun!\n\nMujhse poochho:\n• Exercise tips 🏋️\n• Muscle pain solutions 💊\n• Diet & nutrition 🥗\n• Supplements 💉\n• Workout plans 📋\n• Weight loss/gain ⚖️\n\nKya jaanna chahte ho?"
     }
   ]);
   const [input, setInput] = useState("");
@@ -130,7 +130,7 @@ function FitnessBot({ darkMode }) {
               animation: "botBounce 3s ease-in-out infinite",
             }}>🤖</div>
             <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontWeight: "700", color: "white", fontSize: "15px", letterSpacing: "-0.3px" }}>Tejas AI Coach</p>
+              <p style={{ margin: 0, fontWeight: "700", color: "white", fontSize: "15px", letterSpacing: "-0.3px" }}>Ignite AI Coach</p>
               <p style={{ margin: 0, fontSize: "12px", color: "rgba(255,255,255,0.8)", display: "flex", alignItems: "center", gap: "5px" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80", display: "inline-block", boxShadow: "0 0 6px #4ade80" }}></span>
                 Online — Fitness Expert

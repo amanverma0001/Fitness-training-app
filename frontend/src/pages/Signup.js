@@ -109,7 +109,7 @@ function Signup({ darkMode }) {
             background: "linear-gradient(135deg, #ff6b35, #ffb347)",
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
             letterSpacing: "-1.5px",
-          }}>Join Tejas</h1>
+          }}>Join Ignite</h1>
           <p style={{ color: mutedColor, fontSize: "14px", margin: 0 }}>
             Start your fitness journey today! 💪
           </p>

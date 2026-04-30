@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Tejas — Smart Fitness Tracker
+# ⚡ Ignite — Smart Fitness Tracker
 
 **AI-powered fitness tracking with real-time workouts, nutrition, and streaks**
 
@@ -16,7 +16,7 @@
 
 ## 📸 Overview
 
-Tejas is a full-stack fitness web application that helps users track workouts, monitor nutrition, and stay consistent with their fitness goals. It features an AI fitness coach that responds in Hinglish, real-time live activity feed, and accurate calorie calculations based on your body weight and age.
+Ignite is a full-stack fitness web application that helps users track workouts, monitor nutrition, and stay consistent with their fitness goals. It features an AI fitness coach that responds in Hinglish, real-time live activity feed, and accurate calorie calculations based on your body weight and age.
 
 ---
 
