@@ -71,14 +71,26 @@ function Nutrition({ darkMode }) {
       const res = await axios.post("http://localhost:5001/api/chat", {
         messages: [{ role: "user", content: `Calculate nutrition for "${foodName}" — ${quantity} ${unit} (Indian homemade style).\nStandard references:\n- Dal = cooked lentil curry, 1 katori = 150g ≈ 120 kcal\n- Roti = whole wheat chapati, 1 piece = 40g ≈ 80 kcal  \n- Chaas = buttermilk, 1 glass = 250ml ≈ 40 kcal\n- Rice = cooked, 1 katori = 150g ≈ 180 kcal\n- Sabzi = cooked curry, 1 katori = 150g ≈ 100 kcal\n- Salad = raw veggies, 1 bowl = 100g ≈ 30 kcal\n- Egg = boiled, 1 piece = 50g ≈ 70 kcal\n- Dahi = curd, 1 katori = 150g ≈ 90 kcal\n\nReply ONLY in JSON:\n{"calories": 0, "protein": 0, "carbs": 0, "fats": 0}` }]
       }, { headers: { Authorization: `Bearer ${token}` } });
+      
       const text = res.data.reply;
-      const json = JSON.parse(text.match(/\{.*\}/s)[0]);
+      const match = text.match(/\{.*\}/s);
+      const json = match ? JSON.parse(match[0]) : { calories: 0, protein: 0, carbs: 0, fats: 0 };
+      
       setFoodItems(prev => {
         const updated = [...prev];
-        updated[index] = { ...updated[index], calories: Math.round(json.calories), protein: Math.round(json.protein), carbs: Math.round(json.carbs), fats: Math.round(json.fats) };
+        updated[index] = { 
+          ...updated[index], 
+          calories: Math.round(json.calories) || 0, 
+          protein: Math.round(json.protein) || 0, 
+          carbs: Math.round(json.carbs) || 0, 
+          fats: Math.round(json.fats) || 0 
+        };
         return updated;
       });
-    } catch (err) { console.log(err); }
+    } catch (err) { 
+      console.log("AI Nutrition Fetch Error:", err);
+      // Fallback: Ensure the row is still interactive
+    }
     setLoadingIndex(null);
   };
 
@@ -408,22 +420,40 @@ function Nutrition({ darkMode }) {
                     {loadingIndex === index ? (
                       <span style={{ fontSize: "14px", color: "#ff6b35" }}>⏳</span>
                     ) : (
-                      <span style={{ fontSize: "13px", fontWeight: "700", color: item.calories > 0 ? "#ff6b35" : mutedColor }}>
-                        {item.calories > 0 ? item.calories : "—"}
-                      </span>
+                      <input 
+                        type="number" 
+                        value={item.calories || ""} 
+                        placeholder="0"
+                        onChange={e => updateFoodItem(index, "calories", Number(e.target.value))}
+                        style={{ ...inputStyle, textAlign: "center", padding: "9px 2px", fontWeight: "700", color: "#ff6b35" }} 
+                      />
                     )}
                   </div>
                   <button onClick={() => removeFoodRow(index)} style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "16px", padding: "0 4px", transition: "transform 0.2s" }}
                     onMouseEnter={e => e.target.style.transform = "scale(1.2)"}
                     onMouseLeave={e => e.target.style.transform = "scale(1)"}>✕</button>
                 </div>
-                {item.calories > 0 && (
-                  <div style={{ display: "flex", gap: "12px", marginTop: "7px", paddingLeft: "4px" }}>
-                    <span style={{ fontSize: "11px", color: "#378ADD", fontWeight: "600" }}>P: {item.protein}g</span>
-                    <span style={{ fontSize: "11px", color: "#EF9F27", fontWeight: "600" }}>C: {item.carbs}g</span>
-                    <span style={{ fontSize: "11px", color: "#ef4444", fontWeight: "600" }}>F: {item.fats}g</span>
-                  </div>
-                )}
+                <div style={{ display: "flex", gap: "10px", marginTop: "8px", paddingLeft: "2px" }}>
+                  {["protein", "carbs", "fats"].map(macro => (
+                    <div key={macro} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                      <span style={{ fontSize: "10px", color: macro === "protein" ? "#378ADD" : macro === "carbs" ? "#EF9F27" : "#ef4444", fontWeight: "700", textTransform: "uppercase" }}>
+                        {macro[0]}:
+                      </span>
+                      <input 
+                        type="number" 
+                        value={item[macro] || ""} 
+                        placeholder="0"
+                        onChange={e => updateFoodItem(index, macro, Number(e.target.value))}
+                        style={{ 
+                          width: "35px", background: "transparent", border: "none", 
+                          borderBottom: `1px solid ${dividerColor}`, color: textColor, 
+                          fontSize: "11px", outline: "none", padding: "2px" 
+                        }} 
+                      />
+                      <span style={{ fontSize: "10px", color: mutedColor }}>g</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
 
